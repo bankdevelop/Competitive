@@ -46,7 +46,6 @@ var nHouse = 0, budget = 0, testRound = 1;
 								}
 								if(j===0) input = [num, ...input];
 							}
-							console.log(input);
 						}
 						nInput++;
 					}
@@ -85,4 +84,4 @@ var nHouse = 0, budget = 0, testRound = 1;
 	}
 });
 
-//result : Sample Failed: WA
+//result : TLE (Time limit Exceed)
