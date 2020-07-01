@@ -1,0 +1,6 @@
+(new Promise((resolve, reject)=> {
+    setTimeout(()=> {
+        console.log("a");
+        resolve();
+    },1000);
+})).then(()=>console.log('b'))
