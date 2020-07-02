@@ -9,6 +9,27 @@ var n = 0, i = 0;
 var input = [], output = [], canBuy = 0;
 var nHouse = 0, budget = 0, testRound = 1;
 
+var countingSort = (arr, min, max) => {
+    let i = min,
+        j = 0,
+        len = arr.length,
+        count = [];
+    for (i; i <= max; i++) {
+        count[i] = 0;
+    }
+    for (i = 0; i < len; i++) {
+        count[arr[i]] += 1;
+    }
+    for (i = min; i <= max; i++) {
+        while (count[i] > 0) {
+            arr[j] = i;
+            j++;
+            count[i]--;
+        }
+    }
+    return arr;
+};
+
 //input
 (new Promise((resolve, reject) => {
 		rl.on("line", function(line) {
@@ -20,40 +41,13 @@ var nHouse = 0, budget = 0, testRound = 1;
 					nHouse = parseInt(arr[0]);
 					budget = parseInt(arr[1]);
 				}else{
-					houses = line.split(" ");
-					nInput = 0;
-					//insertion sort
-					while( nInput < nHouse ) {
-						num = parseInt(houses[nInput]);
-						if(input.length === 0) {
-							input.push(num);
-						} else {
-							if( num >= input[nInput-1] ){
-								input.push(num);
-							}else{
-								j = nInput-1;
-								while(j>0){
-									if(num > input[j-1]){
-										g = nInput;
-										while(g>j){
-											input[g] = input[g-1];
-											g--;
-										}
-										input[j] = num;
-										break;
-									}
-									j--;
-								}
-								if(j===0) input = [num, ...input];
-							}
-						}
-						nInput++;
-					}
+					houses = line.split` `.map(x=>+x)
+					houses = countingSort(houses, (Math.min(...houses)), Math.max(...houses));
 
 					//output
 					let p = 0;
 					while( p < nHouse ){
-						if( (result=budget-input[p++])>=0 ) {
+						if( (result=budget-houses[p++])>=0 ) {
 							budget=result;
 							canBuy++;
 						}else{
@@ -70,7 +64,7 @@ var nHouse = 0, budget = 0, testRound = 1;
 				}
 
 				//reset value
-				input = [], canBuy = 0;
+				canBuy = 0;
 			}
 			
 		});
@@ -84,4 +78,4 @@ var nHouse = 0, budget = 0, testRound = 1;
 	}
 });
 
-//result : TLE (Time limit Exceed)
+//PASS
