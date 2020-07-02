@@ -6,7 +6,7 @@ var rl = readline.createInterface({
 });
 
 var n = 0, i = 0;
-var input = [], output = [], canBuy = 0;
+var output = [], canBuy = 0;
 var nHouse = 0, budget = 0, testRound = 1;
 
 var countingSort = (arr, min, max) => {
@@ -29,6 +29,7 @@ var countingSort = (arr, min, max) => {
     }
     return arr;
 };
+
 
 //input
 (new Promise((resolve, reject) => {
