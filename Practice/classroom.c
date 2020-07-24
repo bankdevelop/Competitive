@@ -6,7 +6,6 @@ int main(){
 	int isError = 0, height = 0, n = 0;
 	int x, y;
 	scanf("%c", &typeRoom);
-	scanf("%d", &n);
 
 	switch(typeRoom){
 		case 's': height=5; break;
@@ -15,7 +14,10 @@ int main(){
 		default: isError=1;
 	}
 	
-	if(n > 5*height) isError = 1;
+	if(!isError){
+		scanf("%d", &n);
+		if(n > 5*height || n<0) isError = 1;
+	}
 	
 	if(!isError){
 		int room[height][5];

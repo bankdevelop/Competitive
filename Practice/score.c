@@ -19,7 +19,8 @@ int main(){
 		if(stu[i].score>max){
 			max=stu[i].score;
 			strcpy(max_name, stu[i].name);
-		}else if(stu[i].score<min){
+		}
+		if(stu[i].score<min){
 			min=stu[i].score;
 			strcpy(min_name, stu[i].name);
 		}
