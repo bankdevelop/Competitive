@@ -3,18 +3,23 @@
 
 int main(){
 	char typeRoom;
-	int height = 0, n = 0;
+	int isError = 0, height = 0, n = 0;
 	int x, y;
 	scanf("%c", &typeRoom);
-	scanf("%d", &n);
 
 	switch(typeRoom){
 		case 's': height=5; break;
 		case 'm': height=6; break;
 		case 'l': height=8; break;
-		default: height=0;
+		default: isError=1;
 	}
 	
+	if(!isError){
+		scanf("%d", &n);
+		if(n > 5*height || n<0) isError = 1;
+	}
+	
+	if(!isError){
 		int room[height][5];
 		for(int j=0; j<height; j++)
 			for(int k=0; k<5; k++)
@@ -22,14 +27,27 @@ int main(){
 		
 		for(int p=0; p<n; p++){
 			scanf("%d %d", &x, &y);
-			room[x-1][y-1]=1;
+			--x;
+			--y;
+			while(room[y][x]){
+				x++;
+				while(x>5){
+					x%=5;
+					y++;
+				}
+			}
+			room[y][x]=1;
 		}
 				
 		for(int j=0; j<height; j++){
 			for(int k=0; k<5; k++){
-				if(room[j][k]) printf("S ");
-				else printf("X ");
+				if(room[j][k]) printf("S");
+				else printf("X");
+				if(k<4){
+					printf(" ");
+				}
 			}
 			printf("\n");
 		}
+	}
 }

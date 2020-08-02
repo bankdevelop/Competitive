@@ -49,7 +49,7 @@ int main(){
 	int mean = sum/n;
 	printf("Mean : %d\n", mean);
 	printf("Max : %s Score : %d\n", max_name, max);
-	printf("Mix : %s Score : %d\n", min_name, min);
+	printf("Min : %s Score : %d\n", min_name, min);
 	for(int p=n-1; p>=0; p--){
 		if(stu[p].score<mean){
 			printf("%s Score : %d\n", stu[p].name, stu[p].score);
