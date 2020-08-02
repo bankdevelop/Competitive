@@ -11,7 +11,7 @@ int main(){
 	
 	char name[50];
 	int point, n_input=0;
-	Student stu[100];
+	Student stu[500];
 	long sum=0;
 	int min=3000, max=-3000;
 	
