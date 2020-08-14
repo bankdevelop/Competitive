@@ -7,11 +7,16 @@ typedef struct Students{
 	int point;
 } Student;
 
+int max_int(int num1, int num2){
+	if(num1>num2) return num1;
+	return num2;
+}
+
 int main(){
 	
 	char name[50];
 	int point, n_input=0;
-	Student stu[500];
+	Student stu[163];
 	long sum=0;
 	int min=3000, max=-3000;
 	
@@ -33,7 +38,17 @@ int main(){
 	for(i=0; i<n_input; i++){
 		index_max=i;
 		for(int j=i; j<n_input; j++){
-			for(int k=0; k<strlen(stu[index_max].name); k++){
+			int length_index_max = strlen(stu[index_max].name);
+			int length_index_j = strlen(stu[j].name);
+			for(int k=0; k<max_int(length_index_max, length_index_j); k++){
+				if(length_index_j<=k && length_index_max>k){
+					break;
+				}
+				if(length_index_j>k && length_index_max<=k){
+					index_max=j;
+					break;
+				}
+				
 				if(stu[j].name[k]>stu[index_max].name[k]){
 					index_max=j;
 					break;
@@ -48,10 +63,12 @@ int main(){
 	}
 	
 	//output
-	printf("Min: %d\n", min);
-	printf("Max: %d\n", max);
-	printf("Mean: %.3f\n\n", (float)sum/n_input);
-	
-	for(int p=n_input-1; p>=0; p--)
-		printf("%s : %d\n", stu[p].name, stu[p].point);
+	if(n_input>0){
+		printf("Min: %d\n", min);
+		printf("Max: %d\n", max);
+		printf("Mean: %.3f\n\n", (float)sum/n_input);
+		
+		for(int p=n_input-1; p>=0; p--)
+			printf("%s : %d\n", stu[p].name, stu[p].point);
+	}
 }
