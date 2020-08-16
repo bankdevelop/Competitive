@@ -4,7 +4,7 @@
 
 typedef struct Students{
 	char name[50];
-	int point;
+	float point;
 } Student;
 
 int max_int(int num1, int num2){
@@ -15,15 +15,15 @@ int max_int(int num1, int num2){
 int main(){
 	
 	char name[50];
-	int point, n_input=0;
+	int n_input=0;
 	Student stu[163];
 	long sum=0;
-	int min=3000, max=-3000;
+	float point, min=3000, max=-3000;
 	
 	while(1){
 		scanf("%s", name);
 		if (!strcmp(name, "stop!")) break;
-		scanf("%d", &point);
+		scanf("%f", &point);
 		
 		strcpy(stu[n_input].name, name);
 		stu[n_input++].point = point;
@@ -64,11 +64,11 @@ int main(){
 	
 	//output
 	if(n_input>0){
-		printf("Min: %d\n", min);
-		printf("Max: %d\n", max);
+		printf("Min: %g\n", min);
+		printf("Max: %g\n", max);
 		printf("Mean: %.3f\n\n", (float)sum/n_input);
 		
 		for(int p=n_input-1; p>=0; p--)
-			printf("%s : %d\n", stu[p].name, stu[p].point);
+			printf("%s : %g\n", stu[p].name, stu[p].point);
 	}
 }
