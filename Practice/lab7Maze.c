@@ -1,27 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct paths{
-	int one;
-	int two;
-	int three;
-	int four;
-} Path;
-
-void addMemPath(Path* memPath, char treasure, int length){
-	if (treasure == '$'){
-		if (length < (*memPath).one)
-			(*memPath).one = length;
-	}else if (treasure == '*'){
-		if (length < (*memPath).two)
-			(*memPath).two = length;
-	}else if (treasure == '+'){
-		if (length < (*memPath).three)
-			(*memPath).three = length;
-	}else if (treasure == '^'){
-		if (length < (*memPath).four)
-			(*memPath).four = length;
-	}
+void addMemPath(int* memPath, int length){
+	if (length < (*memPath)) (*memPath) = length;
 }
 
 int** createMem(int h, int w) {
@@ -49,47 +30,44 @@ int** copyMem(int** target, int h, int w) {
 	return mem;
 }
 
-int checkLength(Path* memPath, length){
-	if ()
+char searchChar(char graph[][500], char teasureNeed, int h, int w){
+	for (int i=0; i<h; i++)
+		for (int j=0; j<w; j++)
+			if (graph[i][j] == teasureNeed) 
+				return teasureNeed;
+	return 'X';
 }
 
-void DFSgo(char graph[][500], int h, int w, int sH, int sW, int** mem, Path* memPath, int length){
-	if (length >= 20) return;
+void DFSgo(char graph[][500], int h, int w, int sH, int sW, int** mem, int* memPath, int length, char treasure){
+	if (length > (*memPath)) return;
 	if (sH >= h || sW >= w) return;
 	if (sH <= 0 || sW <= 0) return;
 	
-	if (graph[sH][sW] == '$') 
-		addMemPath(memPath, '$', length);
-	else if (graph[sH][sW] == '*')
-		addMemPath(memPath, '*', length);
-	else if (graph[sH][sW] == '+')
-		addMemPath(memPath, '*', length);
-	else if (graph[sH][sW] == '^')
-		addMemPath(memPath, '^', length);
+	if (graph[sH][sW] == treasure) 
+		addMemPath(memPath, length);
 	else if (graph[sH][sW] == '#') return;
 	
 	if (mem[sH][sW] == 1) return;
-	mem = copyMem(mem, h, w);
 	mem[sH][sW] = 1;
+	mem = copyMem(mem, h, w);
 	
-	DFSgo(graph, h, w, sH, sW-1, mem, memPath, length+1);
-	DFSgo(graph, h, w, sH, sW+1, mem, memPath, length+1);
-	DFSgo(graph, h, w, sH+1, sW, mem, memPath, length+1);
-	DFSgo(graph, h, w, sH-1, sW, mem, memPath, length+1);
+	DFSgo(graph, h, w, sH, sW-1, mem, memPath, length+1, treasure);
+	DFSgo(graph, h, w, sH, sW+1, mem, memPath, length+1, treasure);
+	DFSgo(graph, h, w, sH+1, sW, mem, memPath, length+1, treasure);
+	DFSgo(graph, h, w, sH-1, sW, mem, memPath, length+1, treasure);
 	freeMem(mem, h);
 }
 
-void DFS(char graph[][500], int h, int w, int sH, int sW, Path* memPath){
+void DFS(char graph[][500], int h, int w, int sH, int sW, int* memPath, char treasure){
 	int** remember = createMem(h+2, w+2);
-	DFSgo(graph, h, w, sH, sW, remember, memPath, 0);
+	DFSgo(graph, h, w, sH, sW, remember, memPath, 0, treasure);
 }
 
 int main(){
 	int h, w, startH=0, startW=0, break_loop=1;
-	char graph[500][500];
-	Path memPath;
-	memPath.one = 500000, memPath.two = 500000;
-	memPath.three = 500000, memPath.four = 500000;
+	char graph[500][500], treasureSearh;
+	char allTreasure[] = {'$', '*', '+', '^'};
+	int memPath = 500000;
 	
 	scanf("%d %d", &h, &w);
 	for (int i=0; i<h; i++){
@@ -101,15 +79,16 @@ int main(){
 			if (graph[startH][startW]=='s')
 				break_loop=0;
 	
-	DFS(graph, h, w, startH-1, startW-1, &memPath);
-	
-	if (memPath.one != 500000)
-		printf("%d", memPath.one);
-	else if (memPath.two != 500000)
-		printf("%d", memPath.two);
-	else if (memPath.three != 500000)
-		printf("%d", memPath.three);
-	else if (memPath.four != 500000)
-		printf("%d", memPath.four);
-	else printf("No Path!");
+	for (int i=0; i<4; i++){
+		treasureSearh = searchChar(graph, allTreasure[i], h, w);
+		if (treasureSearh != 'X'){
+			DFS(graph, h, w, startH-1, startW-1, &memPath, treasureSearh);
+			
+			if (memPath != 500000) {
+				printf("%d", memPath);
+				break;
+			}
+		}
+	}
+	if (treasureSearh == 'X' || memPath == 500000) printf("No Path!");
 }

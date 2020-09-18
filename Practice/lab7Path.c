@@ -1,3 +1,4 @@
+/* อยากลองแก้โดยใช้ data structure graph โดยตรง ดองไว้ก่อนถ้ามีเวลามาแก้ทีหลัง*/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,23 +15,23 @@ int travel(Edge edge, int start){
 	return -1;
 }
 
-int get_destination(Edge arr[], int point, int n, int mem[]){
+int is_cycle(int mem[], int *mem_n, int start){
+	for (int i=0; i<(*mem_n); i++)
+		
+}
+
+int get_destination(Edge arr[], int point, int n, int mem[], int *mem_n){
 	for (int i=0; i<n; i++){
 		int result = travel(arr[i], point);
-		if (result != -1 && mem[result] == 1) 
-			continue;
-		if(result != -1) {
-			mem[result] = 1;
-			return result;
-		}
+		if (is_cycle(mem, mem_n, result)) continue;
+		if(result != -1) return result;
 	}
 	return -1;
 }
 
 int main(){
-	int n, n_edge, remember[500];
+	int n, n_edge, remember[500], remember_n;
 	Edge arr_edge[500], edge_input;
-	for (int i=0; i<500; i++) remember[i]=0;
 	
 	scanf("%d", &n);
 	scanf("%d", &n_edge);
@@ -40,10 +41,9 @@ int main(){
 	
 	scanf("%d %d", &edge_input.start, &edge_input.destination);
 	int current_point = edge_input.start, destination;
-	remember[current_point] = 1;
 	
 	while( current_point != edge_input.destination ){
-		destination = get_destination(arr_edge, current_point, n_edge, remember);
+		destination = get_destination(arr_edge, current_point, n_edge, remember, &remember_n);
 		if (destination == -1) break;
 		current_point = destination;
 	}
