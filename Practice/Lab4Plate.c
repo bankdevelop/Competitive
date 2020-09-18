@@ -17,7 +17,7 @@ int main() {
 			}
 			output_length[n_output++] = n_stack;
 		} else if (!strcmp("pop", command)) {
-			--n_stack;
+			if (n_stack!=0) --n_stack;
 			for(int i=0; i<n_stack; i++){
 				output[n_output][i]=stack[i];
 			}
@@ -32,6 +32,7 @@ int main() {
 		for(int j=output_length[i]-1; j>=0; j--){
 			printf(" %d", output[i][j]);
 		}
-		printf(" |\n");
+		printf(" |");
+		if (i!=n_output-1) printf("\n");
 	}
 }
