@@ -43,7 +43,7 @@ void DFSgo(char graph[][500], int h, int w, int sH, int sW, int** mem, int* memP
 	if (sH >= h || sW >= w) return;
 	if (sH <= 0 || sW <= 0) return;
 	
-	if (graph[sH][sW] == treasure) 
+	if (graph[sH][sW] == treasure)
 		addMemPath(memPath, length);
 	else if (graph[sH][sW] == '#') return;
 	
