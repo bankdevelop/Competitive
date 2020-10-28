@@ -13,9 +13,10 @@ void searchGo(Node* root,
 				  
 	if (*nodeFound != NULL) return;
 	if (root == NULL) return;
+
 	if (root->value == searchValue)
 		*nodeFound = root;
-	
+
 	if (root->left != NULL)
 		searchGo(root->left, searchValue, nodeFound);
 	if (root->right != NULL)
@@ -51,17 +52,17 @@ int countLeaf(Node* root){
 
 int main(){
 	int n;
-	char root_node;
+  char root_node;
 	scanf("%c", &root_node);
 	scanf("%d", &n);
 	
 	Node* root = (Node*)malloc(sizeof(Node));
 	root->value=root_node;
+
 	for(int i=0; i<n; i++){
 		char parent, child, order;
-		if (getchar() == '\n') continue;
 		scanf("\n%c %c %c", &parent, &child, &order);
-		
+
 		Node* result = search(root, parent);
 		if (result != NULL){
 			Node* newChild = (Node*)malloc(sizeof(Node));
@@ -74,5 +75,7 @@ int main(){
 	}
 	
 	int amountLeafLeft = countLeaf(root->left);
-	printf("%d", amountLeafLeft);
+	printf("%d ", amountLeafLeft);
+	int amountLeafRight = countLeaf(root->right);
+	printf("%d", amountLeafRight);
 }
