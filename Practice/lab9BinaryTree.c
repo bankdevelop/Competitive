@@ -8,7 +8,7 @@ typedef struct nodes{
 } Node;
 
 void searchGo(Node* root, 
-			  char searchValue,
+			  int searchValue,
 			  Node** nodeFound){
 				  
 	if (*nodeFound != NULL) return;
@@ -24,7 +24,7 @@ void searchGo(Node* root,
 }
 
 Node* search(Node* root,
-			 char searchValue){
+			 int searchValue){
 				 
 	Node* nodeFound = NULL;
 	searchGo(root, searchValue, &nodeFound);
@@ -34,34 +34,40 @@ Node* search(Node* root,
 		return NULL;
 }
 
-void countLeafGo(Node* root, int* count){
+void preOrder(Node* root){
 	if (root == NULL) return;
-	if (root->left == NULL && root->right == NULL){
-		(*count)++;
-		return;
-	}
-	countLeafGo(root->left, count);
-	countLeafGo(root->right, count);
+	printf("%d ", root->value);
+	preOrder(root->left);
+	preOrder(root->right);
 }
 
-int countLeaf(Node* root){
-	int count = 0;
-	countLeafGo(root, &count);
-	return count;
+void inOrder(Node* root){
+	if (root == NULL) return;
+	inOrder(root->left);
+	printf("%d ", root->value);
+	inOrder(root->right);
+}
+
+void postOrder(Node* root){
+	if (root == NULL) return;
+	postOrder(root->left);
+	postOrder(root->right);
+	printf("%d ", root->value);
 }
 
 int main(){
 	int n;
-  char root_node;
-	scanf("%c", &root_node);
+	int root_node;
 	scanf("%d", &n);
+	scanf("%d", &root_node);
 	
 	Node* root = (Node*)malloc(sizeof(Node));
 	root->value=root_node;
 
 	for(int i=0; i<n; i++){
-		char parent, child, order;
-		scanf("\n%c %c %c", &parent, &child, &order);
+		int parent, child;
+		char order;
+		scanf("%d %d %c", &parent, &child, &order);
 
 		Node* result = search(root, parent);
 		if (result != NULL){
@@ -74,9 +80,12 @@ int main(){
 		}
 	}
 	
-	int amountLeafLeft = countLeaf(root->left);
-	int amountLeafRight = countLeaf(root->right);
-
-	printf("%d ", amountLeafLeft);
-	printf("%d ", amountLeafRight);
+	//pre order
+	preOrder(root);
+	printf("\n");
+	//in order
+	inOrder(root);
+	printf("\n");
+	//post order
+	postOrder(root);
 }
