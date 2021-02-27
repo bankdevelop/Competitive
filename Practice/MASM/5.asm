@@ -25,8 +25,9 @@ CODE SEGMENT
 	ASSUME CS:CODE, DS:DATA, SS:STACK
 	
 _START PROC
-
 	;load register data
+	MOV AX,DATA
+	MOV DS,AX
 
 	;open file
 	LEA DX,FILENAME
